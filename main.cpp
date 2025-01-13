@@ -8,12 +8,6 @@
 #include <cstdint>
 
 void testThreadPool1();
-void testThreadPool2();
-
-template<typename T>
-int64_t square(T f, int64_t i) {
-    return f(i);
-}
 
 void testThreadPool1() {
     unsigned int n = std::thread::hardware_concurrency();
@@ -24,11 +18,11 @@ void testThreadPool1() {
 
     for (int i = 0; i < 8; ++i) {
         //*
-        auto square_task = [i]() -> int64_t {
+        auto square_task = [](int i) -> int64_t {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             return i * i;
         };
-        auto future = pool.enqueue(square_task);
+        auto future = pool.enqueue(square_task, i);
 
         results.emplace_back(std::move(future));
         //*/

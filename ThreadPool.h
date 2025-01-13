@@ -45,7 +45,7 @@ public:
     inline ~ThreadPool();
 
     template <class F, class... Args>
-    std::future<std::invoke_result_t <F(Args...)>> enqueue(F&& f, Args &&...args);
+    std::future<std::invoke_result_t<F, Args...>> enqueue(F&& f, Args &&...args);
 
 private:
     std::vector<std::thread> workers;
@@ -115,9 +115,9 @@ inline ThreadPool::~ThreadPool() {
 }
 
 template <class F, class... Args>
-std::future<std::invoke_result_t<F(Args...)>> ThreadPool::enqueue(F&& f, Args&&... args) {
+std::future<std::invoke_result_t<F, Args...>> ThreadPool::enqueue(F&& f, Args&&... args) {
     // The return type of task F with arguments args
-    using return_type = std::invoke_result_t<F(Args...)>;
+    using return_type = std::invoke_result_t<F, Args...>;
 
     // wrapper for no arguments
     auto task = std::make_shared<std::packaged_task<return_type()>>(

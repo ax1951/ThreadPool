@@ -23,12 +23,12 @@ void testThreadPool1() {
     std::vector<std::future<int64_t>> results;
 
     for (int i = 0; i < 8; ++i) {
-        /*
-        auto square_task = [](int i) -> int64_t {
+        //*
+        auto square_task = [i]() -> int64_t {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             return i * i;
         };
-        auto future = pool.enqueue(square_task, i);
+        auto future = pool.enqueue(square_task);
 
         results.emplace_back(std::move(future));
         //*/
